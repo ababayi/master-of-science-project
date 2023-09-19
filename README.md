@@ -38,7 +38,5 @@ https://drive.google.com/file/d/133leQsLs7dtUpztwzZ6Fo3h-MzDwdNRT/view?usp=shari
 or watch on aparat:
 https://www.aparat.com/v/WjMcN
 
-<div id="81486711713"><script type="text/JavaScript" src="https://www.aparat.com/embed/WjMcN?data[rnddiv]=81486711713&data[responsive]=yes&titleShow=true"></script></div>
-
 If you are new to ROS, use the below fast hand-book to learn ROS:
 https://github.com/ababayi/Beginners-tuts-on-ros1
