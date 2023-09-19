@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <!-- ENV Varabile for adding aruco -->
+    <env name="GAZEBO_MODEL_PATH" value="$(find bebop_gazebo)/models:$GAZEBO_MODEL_PATH" />
+
+    <!-- Opening Gazebo and Load The World -->
+    <include file="$(find hector_gazebo_worlds)/launch/start.launch">
+     <arg name="world" value="worlds/zephyr_demo.world"/>
+    <!-- <arg name="world" value="$(find uav_landing)/worlds/newworlds/yosemite.world"/> -->
+    <!-- <arg name="world" value="/home/ahmad/Desktop/gazebo_models_worlds_collection-master/worlds/agriculture.world"/> -->
+    </include>
+
+    <!-- Spawn helipad -->
+    <node name="spawn_helipad" pkg="gazebo_ros" type="spawn_model"
+    args="-file $(find bebop_gazebo)/models/marker3/model.sdf
+        -model marker3 -sdf
+        -x -10.0
+        -y 10.0
+        -z -0.05"
+    respawn="false" output="screen"/>
+
+    <!-- This node written to move the helipad (AR tag) -->
+    <node pkg="landing_sim" type="pad_mover.py" name="pad_mover" output="screen" >
+        <param name="x_vel" type="double" value="0.0" />
+        <param name="y_vel" type="double" value="0.0" />
+        <param name="seconds_before_moving" type="double" value="5" />
+    </node>
+
+
+    <!-- Spawn simulated quadrotor uav -->
+    <include file="$(find hector_quadrotor_gazebo)/launch/spawn_quadrotor.launch" >
+        <arg name="model" value="$(find hector_quadrotor_description)/urdf/quadrotor_downward_cam.gazebo.xacro"/> 
+        <!-- <arg name="model" value="$(find hector_quadrotor_description)/urdf/quadrotor_with_cam.gazebo.xacro"/> -->
+        <!--<arg name="use_ground_truth_for_tf" value="false"/>
+        <arg name="use_ground_truth_for_control" value="false"/>
+        <arg name="use_pose_estimation" value="true"/>-->s
+        <arg name="controllers" value=" 
+            controller/attitude
+            controller/velocity
+            controller/position
+            "/>
+
+    </include>
+
+    <!-- Flying Node -->
+    <!-- <node pkg="uav_landing" type="my_startup_flight.py" name="my_startup_flight" output="screen" respawn = "true"/> -->
+
+
+</launch>

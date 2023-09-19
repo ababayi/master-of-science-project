@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<launch>
+   
+  <env name="GAZEBO_MODEL_PATH" value="$(find bebop_gazebo)/models:$GAZEBO_MODEL_PATH" />
+	
+
+  <!-- Start Gazebo with wg world running in (max) realtime -->
+  <include file="$(find hector_gazebo_worlds)/launch/start.launch">
+   <arg name="world" value="worlds/zephyr_demo.world"/>
+  <!-- <arg name="world" value="$(find uav_landing)/worlds/hecto.world"/> -->
+  </include>
+
+
+  <!-- This node will add the urdf or sdf model to gazebo -->
+  <node name="spawn_helipad" pkg="gazebo_ros" type="spawn_model"
+      args="-file $(find bebop_gazebo)/models/marker3/model.sdf
+         -model marker3 -sdf
+         -x -10.0
+         -y 10.0
+         -z 0.3"
+      respawn="false" output="screen"/>
+  
+  
+  <!-- This node written to move the moving target -->
+  <node pkg="uav_landing" type="moving_helipad.py" name="moving_helipad" output="screen" >
+      <param name="x_vel" type="double" value="0.0" />
+      <param name="y_vel" type="double" value="0.0" />
+      <param name="seconds_before_moving" type="double" value="20" />
+  </node>
+
+</launch>
