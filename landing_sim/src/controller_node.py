@@ -254,8 +254,9 @@ while not rospy.is_shutdown():
             xline.append(pos0[0])
             yline.append(pos0[1])
 
-            pub_pos.publish(pos_goal_msg)
-            #pub_vel_msg.publish(vel_goal_msg)
+            # Publish Data
+            conmsg = [thrust, ratesMagn]
+            pub_vel_msg.publish(conmsg)
             
             #Shut down the quadrotor if landing was executed
             if(abs(pos_goal_msg.pose.position.z) < motor_turn_off_z): # landing_executed == True
